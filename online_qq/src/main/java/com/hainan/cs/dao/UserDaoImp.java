@@ -14,8 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.hainan.cs.bean.User;
 @Repository(value="userDao")
-public class UserDaoImp extends RedisGeneratorDao<String,String>{
+public class UserDaoImp extends RedisGeneratorDao<String,String> implements UserDao{
 	//添加user Hash hsetNX
+	@Override
 	public boolean addUser(final User user){
 		boolean result=redisTemplate.execute(new RedisCallback<Boolean>(){
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
@@ -42,6 +43,7 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		return result;
 	}
 	//添加用户好友
+	@Override
 	public void addFriends(final User user, final String friendid, final String group){
 		Boolean result=redisTemplate.execute(new RedisCallback<Boolean>(){
 			@Override
@@ -58,11 +60,13 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		});
 	}
 	//删除用户好友
+	@Override
 	public void deleteFriend(User user, String friendsid){
 		BoundHashOperations<String,String,String> bhops=redisTemplate.boundHashOps("friend"+user.getId());
 		bhops.delete(friendsid);
 	}
 	//添加用户好友组
+	@Override
 	public void addFriendsGroup(final User user, final String group){
 		redisTemplate.execute(new RedisCallback<Boolean>(){
 
@@ -78,6 +82,7 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		});
 	}
 	//添加List
+	@Override
 	public void addUserToList(final String key,final String value){
 		redisTemplate.execute(new RedisCallback<Boolean>(){
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
@@ -90,10 +95,12 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 			});
 	}
 	//删除对象
+	@Override
 	public void deleteUser(String userid){
 		redisTemplate.delete(userid);
 	}
 	//删除hash中的一条记录
+	@Override
 	public void deleteUserFromList(String key,String id){
 		BoundHashOperations<String,Object,Object> bhops=redisTemplate.boundHashOps(key);
 		bhops.delete(id);
