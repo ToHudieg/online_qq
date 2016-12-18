@@ -41,7 +41,22 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		});
 		return result;
 	}
-	
+	//添加用户好友列表
+	public void addFriends(final User user, final String friendid, final String group){
+		Boolean result=redisTemplate.execute(new RedisCallback<Boolean>(){
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+				RedisSerializer<String> serializer=redisTemplate.getStringSerializer();
+				String key="friend"+user.getId();
+				byte[] fkey=serializer.serialize(key);
+				byte[] ffriendid=serializer.serialize(friendid);
+				byte[] fgroup=serializer.serialize(group);
+				Boolean r= connection.hSet(fkey, ffriendid, fgroup);
+				return r;
+			}
+			
+		});
+	}
 	//添加List
 	public void addUserToList(final String key,final String value){
 		redisTemplate.execute(new RedisCallback<Boolean>(){
@@ -77,5 +92,6 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		u.setAdress("china haikou");
 		udi.addUser(u);
 		udi.addUserToList("userlist", id);
+		context.close();
 	}
 }
