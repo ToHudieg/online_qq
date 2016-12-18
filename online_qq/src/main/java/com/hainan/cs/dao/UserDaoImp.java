@@ -41,7 +41,7 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 		});
 		return result;
 	}
-	//添加用户好友列表
+	//添加用户好友
 	public void addFriends(final User user, final String friendid, final String group){
 		Boolean result=redisTemplate.execute(new RedisCallback<Boolean>(){
 			@Override
@@ -53,6 +53,26 @@ public class UserDaoImp extends RedisGeneratorDao<String,String>{
 				byte[] fgroup=serializer.serialize(group);
 				Boolean r= connection.hSet(fkey, ffriendid, fgroup);
 				return r;
+			}
+			
+		});
+	}
+	//删除用户好友
+	public void deleteFriend(User user, String friendsid){
+		BoundHashOperations<String,String,String> bhops=redisTemplate.boundHashOps("friend"+user.getId());
+		bhops.delete(friendsid);
+	}
+	//添加用户好友组
+	public void addFriendsGroup(final User user, final String group){
+		redisTemplate.execute(new RedisCallback<Boolean>(){
+
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+				RedisSerializer<String> serializer=redisTemplate.getStringSerializer();
+				byte[] key=serializer.serialize("group"+user.getId());
+				byte[] value=serializer.serialize(group);
+				connection.lPush(key, value);
+				return true;
 			}
 			
 		});
