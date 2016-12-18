@@ -1,5 +1,7 @@
 package com.hainan.cs.dao;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -7,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.BoundListOperations;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
@@ -41,6 +42,11 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 			}
 		});
 		return result;
+	}
+	//获取用户信息
+	public Map<String,String> getUser(String userid){
+		BoundHashOperations<String,String,String> bhops=redisTemplate.boundHashOps(userid);
+		return bhops.entries();
 	}
 	//添加用户好友
 	@Override
@@ -93,6 +99,11 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 				return true;
 			}
 			});
+	}
+	//获取用户列表
+	public List<String> getUserList(){
+		BoundListOperations<String,String> blops=redisTemplate.boundListOps("userlist");
+		return blops.range(0, blops.size());
 	}
 	//删除对象
 	@Override
