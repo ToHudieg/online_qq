@@ -13,9 +13,8 @@
             http://www.springframework.org/schema/beans/spring-beans.xsd  
             http://www.springframework.org/schema/context 
             http://www.springframework.org/schema/context/spring-context.xsd">  
-    
-         <context:component-scan
-            base-package="com.hainan.cs"/>  
+            
+     <context:component-scan base-package="com.hainan.cs"/>  
 <context:property-placeholder location="classpath:redis.properties" />  
 <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
         <property name="maxIdle" value="${redis.maxIdle}" />  

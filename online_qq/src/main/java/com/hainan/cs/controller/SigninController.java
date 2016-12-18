@@ -3,6 +3,7 @@ package com.hainan.cs.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -21,14 +22,22 @@ public class SigninController {
 	@Resource
 	private UserDaoImp userDao;
 	
-	@RequestMapping
+	@RequestMapping()
 	public ModelAndView sign(){
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("sign");
 		return mav;
 	}
-	@RequestMapping(value="adduser")
-	public ModelAndView signup(User user){
+	@RequestMapping(value="/adduser")
+	public ModelAndView signup(String username,String password,String email,String phone,String address){
+		User user=new User();
+		user.setAdress(address);
+		user.setEmial(email);
+		user.setPhone(phone);
+		user.setUsername(username);
+		user.setPassword(password);
+		String id=UUID.randomUUID().toString();
+		user.setId(id);
 		userDao.addUser(user);
 		userDao.addFriends(user, user.getId(), "friends");
 		userDao.addUserToList("userlist", user.getId());

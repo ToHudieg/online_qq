@@ -22,7 +22,7 @@ public class LoginController {
 	@RequestMapping
 	public ModelAndView login(){
 		ModelAndView mav=new ModelAndView();
-		mav.addObject("tag", "right");
+		mav.addObject("tag", 0);
 		mav.setViewName("login");
 		return mav;
 	}
@@ -60,7 +60,7 @@ public class LoginController {
 			}
 		}
 		if(nameright==0||passright==0){
-			mav.addObject("tag", "wrong");
+			mav.addObject("tag", 1);
 			mav.setViewName("redirect:/login");
 		}
 		return mav;
