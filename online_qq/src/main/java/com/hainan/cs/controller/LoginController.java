@@ -55,6 +55,7 @@ public class LoginController {
 					String id=userlist.get(i);
 					user.setUserid(id);
 					mav.setViewName("home");
+					mav.addObject("username", username);
 					break;
 				}
 			}

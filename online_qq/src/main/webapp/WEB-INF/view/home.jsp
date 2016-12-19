@@ -29,10 +29,23 @@
 					<div class="row">
 						<!-- 好友列表控制 -->
 						<div class="col-md-6">
-							<button type="button" class="btn btn-block btn-success">
+							<button type="button" class="btn btn-block btn-success" onclick="friends()">
 							Friends List
 							</button>
 						</div>
+						<script>
+							function friends(){
+								$.ajax({
+									url:"${pageContext.request.contextPath}/friend",
+									type:"POST",
+									dataType:"json",
+									success:function(data){
+										
+									},
+									error:function(data){}
+								});
+							}
+						</script>
 						<!-- 消息列表控制 -->
 						<div class="col-md-6">
 							<button type="button" class="btn btn-block btn-success">
