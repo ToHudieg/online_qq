@@ -119,6 +119,7 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 	//获取用户的好友分组
 	public List<String> getFriendGroups(String userid){
 		BoundListOperations<String,String> blops=redisTemplate.boundListOps("group"+userid);
+		System.out.println(userid);
 		return blops.range(0, blops.size());
 	}
 	//获取用户的好友列表

@@ -40,8 +40,10 @@ public class FriendsController {
 		UserSingleton user=UserSingleton.getInstance();
 		//获取用户的所以好友分组，及各组的好友
 		List<String> friendgroup=userDao.getFriendGroups(user.getUserid());
+		System.out.println(friendgroup.size());
 		Map<String,String> friend=userDao.getFriends(user.getUserid());
 		for(int i=0;i<friendgroup.size();i++){
+			
 			map.put(friendgroup.get(i), new ArrayList<String>() );
 		}
 		

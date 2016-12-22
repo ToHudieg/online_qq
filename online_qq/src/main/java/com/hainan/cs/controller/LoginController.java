@@ -53,11 +53,15 @@ public class LoginController {
 					user.setPassword(password);
 					user.setName(username);
 					String id=userlist.get(i);
+					System.out.println(id);
 					user.setUserid(id);
 					mav.setViewName("redirect:/home");
 					mav.addObject("username", username);
 					break;
 				}
+			}
+			if(nameright==1&&passright==1){
+				break;
 			}
 		}
 		if(nameright==0||passright==0){
