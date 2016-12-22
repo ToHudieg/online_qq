@@ -116,6 +116,17 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 		BoundHashOperations<String,Object,Object> bhops=redisTemplate.boundHashOps(key);
 		bhops.delete(id);
 	}
+	//获取用户的好友分组
+	public List<String> getFriendGroups(String userid){
+		BoundListOperations<String,String> blops=redisTemplate.boundListOps("group"+userid);
+		return blops.range(0, blops.size());
+	}
+	//获取用户的好友列表
+	public Map<String,String> getFriends(String userid){
+		BoundHashOperations<String,String,String> bhops=redisTemplate.boundHashOps("friend"+userid);
+		return bhops.entries();
+	}
+	
 	//测试
 	public static void main(String args[]){
 		ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("spring/application-config.xml");

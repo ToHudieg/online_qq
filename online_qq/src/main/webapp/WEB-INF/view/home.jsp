@@ -36,13 +36,24 @@
 						<script>
 							function friends(){
 								$.ajax({
-									url:"${pageContext.request.contextPath}/friend",
+									url:"${pageContext.request.contextPath}/home/friends",
 									type:"POST",
 									dataType:"json",
 									success:function(data){
-										
+										alert(data.reply);
+										var content="好友列表";
+										for(var key in data){
+											content=content+"<h4>";
+											for(var i=0;i<data[key].length();i++){
+												content=content+"<p>"+data[key][i]+"</p>";
+											}
+										}
+										content=content+"</p>";
+										$("#fcontent").html(content);
 									},
-									error:function(data){}
+									error:function(data){
+										alert("error");
+									}
 								});
 							}
 						</script>
@@ -55,7 +66,9 @@
 					</div>
 					<!--  好友列表和消息显示容器-->
 					<div class="row">
-						<div class="col-md-12" style="height:500px">
+						<div class="col-md-12" style="height:500px" >
+							<div class="row" id="fcontent">
+							</div>
 						</div>
 					</div>
 					<!-- 搜索好友 -->
@@ -75,7 +88,7 @@
 					<!-- 好友姓名显示 -->
 					<div class="row">
 						<div class="col-md-12">
-							<h4 style="text-align:center">${friend name }</h4>
+							<h4 style="text-align:center">${friendname }</h4>
 						</div>
 					</div>
 					<!-- 聊天窗口 -->

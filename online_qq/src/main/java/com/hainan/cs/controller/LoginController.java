@@ -54,7 +54,7 @@ public class LoginController {
 					user.setName(username);
 					String id=userlist.get(i);
 					user.setUserid(id);
-					mav.setViewName("home");
+					mav.setViewName("redirect:/home");
 					mav.addObject("username", username);
 					break;
 				}
