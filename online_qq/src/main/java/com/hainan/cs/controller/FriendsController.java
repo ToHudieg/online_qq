@@ -42,23 +42,11 @@ public class FriendsController {
 		List<String> friendgroup=userDao.getFriendGroups(user.getUserid());
 		System.out.println(friendgroup.size());
 		Map<String,String> friend=userDao.getFriends(user.getUserid());
-		for(int i=0;i<friendgroup.size();i++){
-			
-			map.put(friendgroup.get(i), new ArrayList<String>() );
-		}
-		
-		for(int i=0;i<friendgroup.size();i++){
-			for(Map.Entry<String, String>entry:friend.entrySet()){
-				String key=entry.getKey();
-				String value=entry.getValue();
-				if(value.equals(friendgroup.get(i))){
-					String name=userDao.getUser(key).get("name");
-					List<String> ar=(List<String>) map.get(friendgroup.get(i));
-					ar.add(name);
-				}
+		for(Map.Entry<String, String>entry:friend.entrySet()){
+			String key=entry.getKey();
+			String value=entry.getValue();
+			map.put(key, value);
 			}
-		}
-		
 		return map;
 	}
 

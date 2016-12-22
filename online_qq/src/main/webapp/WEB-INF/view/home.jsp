@@ -43,12 +43,8 @@
 										alert(data.reply);
 										var content="好友列表";
 										for(var key in data){
-											content=content+"<h4>";
-											for(var i=0;i<data[key].length();i++){
-												content=content+"<p>"+data[key][i]+"</p>";
-											}
+											content=content+"<p>"+data[key]+"</p>";
 										}
-										content=content+"</p>";
 										$("#fcontent").html(content);
 									},
 									error:function(data){
