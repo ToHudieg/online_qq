@@ -12,10 +12,10 @@ public interface UserDao {
 
 	void addFriendsGroup(User user, String group);
 
-	void addUserToList(String key, String value);
-
 	void deleteUser(String userid);
 
 	void deleteUserFromList(String key, String id);
+
+	void addUserToList(String key, String userid, String username);
 
 }

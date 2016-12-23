@@ -1,6 +1,5 @@
 package com.hainan.cs.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +40,24 @@ public class FriendsController {
 		//获取用户的所以好友分组，及各组的好友
 		List<String> friendgroup=userDao.getFriendGroups(user.getUserid());
 		System.out.println(friendgroup.size());
+		map.put("group", friendgroup);
 		Map<String,String> friend=userDao.getFriends(user.getUserid());
+		Map<String,String> userlist=userDao.getUserList();
+		//用来存好友列表只是key是用户名
+		Map<String,String> fmap=new HashMap<String,String>();
 		for(Map.Entry<String, String>entry:friend.entrySet()){
 			String key=entry.getKey();
 			String value=entry.getValue();
-			map.put(key, value);
+			for(Map.Entry<String, String>entry1:userlist.entrySet()){
+				String idInUserList=entry1.getKey();
+				String nameInUserList=entry1.getValue();
+				if(key.equals(idInUserList)){
+					fmap.put(nameInUserList, value);
+					break;
+				}
+				}
 			}
+		map.put("friends", fmap);
 		return map;
 	}
 

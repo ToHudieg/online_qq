@@ -29,11 +29,13 @@ public class LoginController {
 	@RequestMapping(value="/userlogin")
 	public ModelAndView userLogin(String username,String password){
 		ModelAndView mav=new ModelAndView();
-		List<String> userlist=userDao.getUserList();
+		Map<String,String> userlist=userDao.getUserList();
 		int nameright=0;
 		int passright=0;
-		for(int i=0;i<userlist.size();i++){
-			Map<String,String> usermap=userDao.getUser(userlist.get(i));
+		for(Map.Entry<String, String>en:userlist.entrySet()){
+			String id=en.getKey();
+			String name=en.getValue();
+			Map<String,String> usermap=userDao.getUser(id);
 			for(Map.Entry<String, String>entry:usermap.entrySet()){
 				String key=entry.getKey();
 				String value=entry.getValue();
@@ -52,7 +54,6 @@ public class LoginController {
 					UserSingleton user=UserSingleton.getInstance();
 					user.setPassword(password);
 					user.setName(username);
-					String id=userlist.get(i);
 					System.out.println(id);
 					user.setUserid(id);
 					mav.setViewName("redirect:/home");

@@ -87,23 +87,24 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 			
 		});
 	}
-	//添加List
+	//添加用户的列表的hashmap
 	@Override
-	public void addUserToList(final String key,final String value){
+	public void addUserToList(final String key,final String userid,final String username){
 		redisTemplate.execute(new RedisCallback<Boolean>(){
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer=getRedisSerializer();
 				byte[] a=serializer.serialize(key);
-				byte[] b=serializer.serialize(value);
-				connection.lPush(a, b);
+				byte[] c=serializer.serialize(userid);
+				byte[] b=serializer.serialize(username);
+				connection.hSet(a, c, b);
 				return true;
 			}
 			});
 	}
 	//获取用户列表
-	public List<String> getUserList(){
-		BoundListOperations<String,String> blops=redisTemplate.boundListOps("userlist");
-		return blops.range(0, blops.size());
+	public Map<String,String> getUserList(){
+		BoundHashOperations<String,String,String> hlops=redisTemplate.boundHashOps("userlist");
+		return hlops.entries();
 	}
 	//删除对象
 	@Override
@@ -141,7 +142,7 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 		u.setPhone("234556");
 		u.setAdress("china haikou");
 		udi.addUser(u);
-		udi.addUserToList("userlist", id);
+		udi.addUserToList("userlist", id, "zhangsan");
 		context.close();
 	}
 }

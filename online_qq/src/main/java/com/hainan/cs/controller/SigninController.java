@@ -40,7 +40,7 @@ public class SigninController {
 		user.setId(id);
 		userDao.addUser(user);
 		userDao.addFriends(user, user.getId(), "friends");
-		userDao.addUserToList("userlist", user.getId());
+		userDao.addUserToList("userlist", user.getId(),user.getUsername());
 		userDao.addFriendsGroup(user, "friends");
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("redirect:/login");
@@ -50,9 +50,11 @@ public class SigninController {
 	@ResponseBody
 	public Map<String,Object> check(String username){
 		Map<String, Object> map=new HashMap<String,Object>();
-		List<String> userlist=userDao.getUserList();
-		for(int i=0;i<userlist.size();i++){
-			Map<String,String> usermap=userDao.getUser(userlist.get(i));
+		Map<String,String> userlist=userDao.getUserList();
+		for(Map.Entry<String, String>en:userlist.entrySet()){
+			String id=en.getKey();
+			String name=en.getValue();
+			Map<String,String> usermap=userDao.getUser(id);
 			int exist=0;
 			for(Map.Entry<String, String>entry:usermap.entrySet()){
 				String key=entry.getKey();
