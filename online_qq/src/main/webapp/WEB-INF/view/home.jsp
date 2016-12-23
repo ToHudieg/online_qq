@@ -42,8 +42,15 @@
 									success:function(data){
 										alert(data.reply);
 										var content="好友列表";
-										for(var key in data){
-											content=content+"<p>"+data[key]+key+"</p>";
+										var group=data.group;//这是一个好友分组的列表
+										var friends=data.friends;//这是所有好友的map<好友的姓名，好友的分组>
+										for(var i=0;i<group.length;i++){
+											content=content+"<h3>"+group[i]+"</h3>";
+											for(var key in friends){
+												if(friends[key]==group[i]){
+													content=content+"<p>"+key+"</p>";
+												}
+											}
 										}
 										$("#fcontent").html(content);
 									},
