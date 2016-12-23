@@ -91,4 +91,23 @@ public class FriendsController {
 		}
 		return searchResult;
 	}
+	
+	@RequestMapping(value="/addfriend")
+	public ModelAndView addFriiend(String friendname){
+		Map<String,String> usermap=userDao.getUserList();
+		UserSingleton user=UserSingleton.getInstance();
+		
+		for(Map.Entry<String, String>entry:usermap.entrySet()){
+			String key=entry.getKey();
+			String value=entry.getValue();
+			if(value.equals(friendname)){
+				userDao.addFriends(user.getUserid(), key, "friends");
+				break;
+			}
+		}
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("redirect:/home");
+		return mav;
+	}
+	
 }

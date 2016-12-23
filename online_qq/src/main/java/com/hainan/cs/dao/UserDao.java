@@ -6,8 +6,6 @@ public interface UserDao {
 
 	boolean addUser(User user);
 
-	void addFriends(User user, String friendid, String group);
-
 	void deleteFriend(User user, String friendsid);
 
 	void addFriendsGroup(User user, String group);
@@ -17,5 +15,7 @@ public interface UserDao {
 	void deleteUserFromList(String key, String id);
 
 	void addUserToList(String key, String userid, String username);
+
+	void addFriends(String userid, String friendid, String group);
 
 }

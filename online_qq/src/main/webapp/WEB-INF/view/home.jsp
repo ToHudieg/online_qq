@@ -92,7 +92,8 @@
 								type:"POST",
 								success:function(data){
 									if(data.result=="exist"){
-										var content="姓名："+data.name+"邮箱："+data.email+"电话："+data.phone+"地址："+data.address+"<a class=\"btn btn-primary\" href=\"\">添加好友</a>";
+										var content="姓名："+data.name+"邮箱："+data.email+"电话："+data.phone+"地址："
+										+data.address+"<a class=\"btn btn-primary\" href=\"${pageContext.request.contextPath}/home/addfriend?friendname="+data.name+"\">添加好友</a>";
 										$("#searchinformation").html(content);
 									}
 								},

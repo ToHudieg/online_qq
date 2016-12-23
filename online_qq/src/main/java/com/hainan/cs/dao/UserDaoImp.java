@@ -50,12 +50,12 @@ public class UserDaoImp extends RedisGeneratorDao<String,String> implements User
 	}
 	//添加用户好友
 	@Override
-	public void addFriends(final User user, final String friendid, final String group){
+	public void addFriends(final String userid, final String friendid, final String group){
 		Boolean result=redisTemplate.execute(new RedisCallback<Boolean>(){
 			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer=redisTemplate.getStringSerializer();
-				String key="friend"+user.getId();
+				String key="friend"+userid;
 				byte[] fkey=serializer.serialize(key);
 				byte[] ffriendid=serializer.serialize(friendid);
 				byte[] fgroup=serializer.serialize(group);

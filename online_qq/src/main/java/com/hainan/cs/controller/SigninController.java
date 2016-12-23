@@ -39,7 +39,8 @@ public class SigninController {
 		String id=UUID.randomUUID().toString();
 		user.setId(id);
 		userDao.addUser(user);
-		userDao.addFriends(user, user.getId(), "friends");
+		//添加自己为好友
+		userDao.addFriends(user.getId(), user.getId(), "friends");
 		userDao.addUserToList("userlist", user.getId(),user.getUsername());
 		userDao.addFriendsGroup(user, "friends");
 		ModelAndView mav=new ModelAndView();
