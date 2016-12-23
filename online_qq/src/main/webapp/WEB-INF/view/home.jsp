@@ -45,10 +45,10 @@
 										var group=data.group;//这是一个好友分组的列表
 										var friends=data.friends;//这是所有好友的map<好友的姓名，好友的分组>
 										for(var i=0;i<group.length;i++){
-											content=content+"<h3>"+group[i]+"</h3>";
+											content=content+"<h4 style=\"color:red\">"+group[i]+"</h4>";
 											for(var key in friends){
 												if(friends[key]==group[i]){
-													content=content+"<p>"+key+"</p>";
+													content=content+"<p><a>"+key+"</a></p>";
 												}
 											}
 										}
@@ -77,17 +77,36 @@
 					<!-- 搜索好友 -->
 					<div class="row">
 						<div class="col-md-12">
-								<form class="form" >
 									<div class="form-group">
-										<input class="form-control" type="text" />
+										<input class="form-control" type="text" id="friendname"/>
 									</div>
-									<button type="submit" class="btn btn-default">Submit</button>
-								</form>
+									<button type="button" class="btn btn-default" onclick="search()">Submit</button>
 							</div>
 					</div>
+					<script>
+						function search(){
+							$.ajax({
+								data:"friendname="+$("#friendname").val(),
+								dataType:"json",
+								url:"${pageContext.request.contextPath}/home/search",
+								type:"POST",
+								success:function(data){
+									if(data.result=="exist"){
+										var content="姓名："+data.name+"邮箱："+data.email+"电话："+data.phone+"地址："+data.address+"<a class=\"btn btn-primary\" href=\"\">添加好友</a>";
+										$("#searchinformation").html(content);
+									}
+								},
+								error:function(data){
+									alert("error");
+								}
+							});
+						}
+					</script>
 				</div>
 				<!-- 右边聊天窗口信息 -->
 				<div class="col-md-6">
+				<!-- 聊天信息层 -->
+				<div class="row">
 					<!-- 好友姓名显示 -->
 					<div class="row">
 						<div class="col-md-12">
@@ -110,6 +129,11 @@
 								</form>
 						</div>
 					</div>
+				</div>
+				<!-- 搜所显示层 -->
+				<div class="row" id="searchinformation">
+					
+				</div>
 				</div>
 			</div>
 		</div>

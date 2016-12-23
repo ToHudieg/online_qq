@@ -60,5 +60,35 @@ public class FriendsController {
 		map.put("friends", fmap);
 		return map;
 	}
-
+	
+	@RequestMapping(value="/search")
+	@ResponseBody
+	public Map<String,String> searchFriend(String friendname){
+		System.out.println("搜索的好友姓名："+friendname);
+		Map<String,String> searchResult=new HashMap<String,String>();
+		Map<String,String> userlist=userDao.getUserList();
+		int tag=0;
+		for(Map.Entry<String, String>entry:userlist.entrySet()){
+			String key=entry.getKey();
+			String value=entry.getValue();
+			if(value.equals(friendname)){
+				Map<String,String> usermap=userDao.getUser(key);
+				String useremail=usermap.get("email");
+				String userphone=usermap.get("phone");
+				String useraddress=usermap.get("address");
+				searchResult.put("result", "exist");
+				searchResult.put("name", friendname);
+				searchResult.put("email", useremail);
+				searchResult.put("phone", userphone);
+				searchResult.put("address", useraddress);
+				
+				tag=1;
+				break;
+			}
+		}
+		if(tag==0){
+			searchResult.put("result", "notexist");
+		}
+		return searchResult;
+	}
 }
