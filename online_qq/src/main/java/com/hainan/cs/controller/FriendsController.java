@@ -96,7 +96,6 @@ public class FriendsController {
 	public ModelAndView addFriiend(String friendname){
 		Map<String,String> usermap=userDao.getUserList();
 		UserSingleton user=UserSingleton.getInstance();
-		
 		for(Map.Entry<String, String>entry:usermap.entrySet()){
 			String key=entry.getKey();
 			String value=entry.getValue();

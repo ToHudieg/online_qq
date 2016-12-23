@@ -11,6 +11,12 @@
 <title>Online QQ</title>
 </head>
 <body>
+<script>
+	$(document).ready(function(){
+		$("#chatwindow").hide();
+		$("#searchinformation").hide();
+	});
+</script>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-2">
@@ -48,7 +54,9 @@
 											content=content+"<h4 style=\"color:red\">"+group[i]+"</h4>";
 											for(var key in friends){
 												if(friends[key]==group[i]){
-													content=content+"<p><a>"+key+"</a></p>";
+													content=content+"<p><button class=\"btn btn-block\" value=\""+key+"\" onclick=\"chat(this.value)\">"+key+"</button></p>";
+													//content=content+"<p><button class=\"btn btn-block\" onclick=\"chat("+key+")\">"+key+"</button></p>";
+													//这种是错误的
 												}
 											}
 										}
@@ -58,6 +66,12 @@
 										alert("error");
 									}
 								});
+							}
+							
+							function chat(key){
+								$("#chatwindow").show();
+								$("#searchinformation").hide();
+								$("#showfname").html(key);
 							}
 						</script>
 						<!-- 消息列表控制 -->
@@ -94,7 +108,14 @@
 									if(data.result=="exist"){
 										var content="姓名："+data.name+"邮箱："+data.email+"电话："+data.phone+"地址："
 										+data.address+"<a class=\"btn btn-primary\" href=\"${pageContext.request.contextPath}/home/addfriend?friendname="+data.name+"\">添加好友</a>";
+										$("#searchinformation").show();
+										$("#chatwindow").hide();
 										$("#searchinformation").html(content);
+									}
+									if(data.result=="notexist"){
+										$("#searchinformation").show();
+										$("#chatwindow").hide();
+										$("#searchinformation").html("no such user name.");
 									}
 								},
 								error:function(data){
@@ -107,11 +128,11 @@
 				<!-- 右边聊天窗口信息 -->
 				<div class="col-md-6">
 				<!-- 聊天信息层 -->
-				<div class="row">
+				<div class="row" id="chatwindow">
 					<!-- 好友姓名显示 -->
 					<div class="row">
 						<div class="col-md-12">
-							<h4 style="text-align:center">${friendname }</h4>
+							<h4 style="text-align:center" id="showfname"></h4>
 						</div>
 					</div>
 					<!-- 聊天窗口 -->
