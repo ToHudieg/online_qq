@@ -67,8 +67,9 @@
 									}
 								});
 							}
-							
+							var to;
 							function chat(key){
+								to=key;
 								$("#chatwindow").show();
 								$("#searchinformation").hide();
 								$("#showfname").html(key);
@@ -137,20 +138,51 @@
 					</div>
 					<!-- 聊天窗口 -->
 					<div class="row">
-						<div class="col-md-12" style="height:550px">
+						<div class="col-md-12" style="height:550px" id="chatcontent">
 						</div>
 					</div>
 					<!-- 发送聊天窗口 -->
 					<div class="row">
 						<div class="col-md-12">
-							<form class="form" >
-									<div class="form-group">
-										<input class="form-control" type="text" />
-									</div>
-									<button type="submit" class="btn btn-default">Submit</button>
-								</form>
+							<!-- 用websocke传消息,不是用form也不是ajax -->
+								<div class="form-group">
+									<input class="form-control" type="text" id="message"/>
+								</div>
+								<button type="button" class="btn btn-default" onclick="send()">Submit</button>
 						</div>
 					</div>
+					<script>
+						var websocket;
+						if('WebSocket' in window){
+							websocket=new WebSocket("ws://localhost:8080/online_qq/ws");
+						}
+						websocket.onopen = function(event) {
+							console.log("WebSocket:已连接");
+							console.log(event);
+						};
+						websocket.onmessage = function(event) {
+							var data=JSON.parse(event.data);
+							console.log("WebSocket:收到一条消息",data);
+							$("#chatcontent").append("<p style=\"color:green\">"+data.username+"</p><p style=\"color:white\">"+data.msg+"</p>");
+						};
+						websocket.onerror = function(event) {
+							console.log("WebSocket:发生错误 ");
+							console.log(event);
+						};
+						websocket.onclose = function(event) {
+							console.log("WebSocket:已关闭");
+							console.log(event);
+						}
+						function send(){
+							var message=$("#message").val();
+							var data={};
+							data["username"]="${username}";
+							data["msg"]=message;
+							data["to"]=to;
+							$("#chatcontent").append("<p style=\"color:red\">"+'${username}'+"</p><p style=\"color:white\">"+message+"</p>");
+							websocket.send(JSON.stringify(data));
+							}
+					</script>
 				</div>
 				<!-- 搜所显示层 -->
 				<div class="row" id="searchinformation">
