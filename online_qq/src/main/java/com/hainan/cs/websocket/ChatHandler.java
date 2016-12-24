@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
+
+import net.sf.json.JSONObject;
 
 @Component
 public class ChatHandler implements WebSocketHandler{
@@ -43,6 +44,11 @@ public class ChatHandler implements WebSocketHandler{
 	public void handleMessage(WebSocketSession wsession, WebSocketMessage<?> message) throws Exception {
 		//TextMessage tm=new TextMessage(message.toString());
 		System.out.println("开始发送消息"+usermap.size());
+		//这是json字符串
+		String jm=message.getPayload().toString();
+		JSONObject json=JSONObject.fromObject(jm);
+		System.out.println(jm);
+		System.out.println(json.get("to"));
 		for(Map.Entry<String,WebSocketSession>entry:usermap.entrySet()){
 			String key=entry.getKey();
 			WebSocketSession value=entry.getValue();
