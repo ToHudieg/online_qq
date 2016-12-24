@@ -28,7 +28,7 @@ public class ChatHandler implements WebSocketHandler{
 			}
 		}
 	}
-
+	//再handshake建立连接后，username存到map中了，wsession怎么拿到的map的值
 	@Override
 	public void afterConnectionEstablished(WebSocketSession wsession) throws Exception {
 		String uname=(String) wsession.getAttributes().get("username");
@@ -38,7 +38,7 @@ public class ChatHandler implements WebSocketHandler{
 		}
 	}
 	
-	// message 是前台传过来的json数据，包括用户名，和发送的消息，要将消息转发给所有的其他用户
+	// message 是前台传过来的json数据，包括用户名，和发送的消息，要将消息转发给所有的其他用户,重新转发的话message格式和原来是一样的
 	@Override
 	public void handleMessage(WebSocketSession wsession, WebSocketMessage<?> message) throws Exception {
 		//TextMessage tm=new TextMessage(message.toString());

@@ -11,6 +11,40 @@
 <title>Online QQ</title>
 </head>
 <body>
+<script type="text/javascript">
+						var name="${username}";
+						var websocket;
+						if('WebSocket' in window){
+							websocket=new WebSocket("ws://localhost:8080/online_qq/ws?username="+name);
+						}
+						websocket.onopen = function(event) {
+							console.log("WebSocket:已连接");
+							console.log(event);
+						};
+						websocket.onmessage = function(event) {
+							var data=JSON.parse(event.data);
+							console.log("WebSocket:收到一条消息",data);
+							$("#chatcontent").append("<p style=\"color:green\">"+data.username+"</p><p style=\"color:white\">"+data.msg+"</p>");
+						};
+						websocket.onerror = function(event) {
+							console.log("WebSocket:发生错误 ");
+							console.log(event);
+						};
+						websocket.onclose = function(event) {
+							console.log("WebSocket:已关闭");
+							console.log(event);
+						}
+						function send(){
+							var message=$("#message").val();
+							var data={};
+							data["username"]="${username}";
+							data["msg"]=message;
+							//to是发送消息的目标
+							data["to"]=to;
+							$("#chatcontent").append("<p style=\"color:red\">"+'${username}'+"</p><p style=\"color:white\">"+message+"</p>");
+							websocket.send(JSON.stringify(data));
+							}
+</script>
 <script>
 	$(document).ready(function(){
 		$("#chatwindow").hide();
@@ -151,38 +185,7 @@
 								<button type="button" class="btn btn-default" onclick="send()">Submit</button>
 						</div>
 					</div>
-					<script>
-						var websocket;
-						if('WebSocket' in window){
-							websocket=new WebSocket("ws://localhost:8080/online_qq/ws");
-						}
-						websocket.onopen = function(event) {
-							console.log("WebSocket:已连接");
-							console.log(event);
-						};
-						websocket.onmessage = function(event) {
-							var data=JSON.parse(event.data);
-							console.log("WebSocket:收到一条消息",data);
-							$("#chatcontent").append("<p style=\"color:green\">"+data.username+"</p><p style=\"color:white\">"+data.msg+"</p>");
-						};
-						websocket.onerror = function(event) {
-							console.log("WebSocket:发生错误 ");
-							console.log(event);
-						};
-						websocket.onclose = function(event) {
-							console.log("WebSocket:已关闭");
-							console.log(event);
-						}
-						function send(){
-							var message=$("#message").val();
-							var data={};
-							data["username"]="${username}";
-							data["msg"]=message;
-							data["to"]=to;
-							$("#chatcontent").append("<p style=\"color:red\">"+'${username}'+"</p><p style=\"color:white\">"+message+"</p>");
-							websocket.send(JSON.stringify(data));
-							}
-					</script>
+					
 				</div>
 				<!-- 搜所显示层 -->
 				<div class="row" id="searchinformation">
