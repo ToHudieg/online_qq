@@ -52,7 +52,8 @@ public class ChatHandler implements WebSocketHandler{
 		for(Map.Entry<String,WebSocketSession>entry:usermap.entrySet()){
 			String key=entry.getKey();
 			WebSocketSession value=entry.getValue();
-			if(key!=wsession.getAttributes().get("username")){
+			//给指定的好友发消息
+			if(key.equals(json.get("to"))){
 				if(value!=null&&value.isOpen()){
 					value.sendMessage(message);
 				}
