@@ -24,7 +24,7 @@
 						websocket.onmessage = function(event) {
 							var data=JSON.parse(event.data);
 							console.log("WebSocket:收到一条消息",data);
-							$("#chatcontent").append("<p style=\"color:green\">"+data.username+"</p><p style=\"color:white\">"+data.msg+"</p>");
+							$("#chatcontent").append("<p style=\"color:green\">"+data.username+":</p><p style=\"color:black\">"+data.msg+"</p>");
 						};
 						websocket.onerror = function(event) {
 							console.log("WebSocket:发生错误 ");
@@ -41,7 +41,7 @@
 							data["msg"]=message;
 							//to是发送消息的目标
 							data["to"]=to;
-							$("#chatcontent").append("<p style=\"color:red\">"+'${username}'+"</p><p style=\"color:white\">"+message+"</p>");
+							$("#chatcontent").append("<p style=\"color:red\">"+'${username}'+":</p><p style=\"color:black\">"+message+"</p>");
 							websocket.send(JSON.stringify(data));
 							}
 </script>
@@ -196,8 +196,9 @@
 					
 				</div>
 				<!-- 搜所显示层 -->
-				<div class="row" id="searchinformation">
-					
+				<div class="row" style="background-color:#D6F5DC">
+					<div class="row" id="searchinformation"  style="margin-left:50px;margin-top:50px">
+					</div>
 				</div>
 				</div>
 			</div>
