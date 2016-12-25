@@ -1,8 +1,6 @@
 package com.hainan.cs.dao;
 
 import java.io.Serializable;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
