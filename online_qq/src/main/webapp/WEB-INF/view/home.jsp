@@ -52,25 +52,26 @@
 	});
 </script>
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" style="background-color:#22DDDD">
 		<div class="col-md-2">
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-8" style="margin-top:50px">
 			<div class="row">
 				<!-- 左边用户列表信息 -->
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<!-- 用户名 -->
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12" style="height:150px ;  background-color:#F7F7B3">
 							<h3 style="text-align:center">${username }</h3>
 						</div>
 					</div>
 					<!-- 好友列表和消息列表 -->
-					<div class="row">
+					<div class="row" style="background-color:#EAF3EA">
 						<!-- 好友列表控制 -->
+						<br>
 						<div class="col-md-6">
 							<button type="button" class="btn btn-block btn-success" onclick="friends()">
-							Friends List
+							好友列表
 							</button>
 						</div>
 						<script>
@@ -80,8 +81,8 @@
 									type:"POST",
 									dataType:"json",
 									success:function(data){
-										alert(data.reply);
-										var content="好友列表";
+										//alert(data.reply);
+										var content="";
 										var group=data.group;//这是一个好友分组的列表
 										var friends=data.friends;//这是所有好友的map<好友的姓名，好友的分组>
 										for(var i=0;i<group.length;i++){
@@ -112,25 +113,28 @@
 						<!-- 消息列表控制 -->
 						<div class="col-md-6">
 							<button type="button" class="btn btn-block btn-success">
-							Message List
+							消息列表
 							</button>
 						</div>
 					</div>
 					<!--  好友列表和消息显示容器-->
-					<div class="row">
-						<div class="col-md-12" style="height:500px" >
-							<div class="row" id="fcontent">
+					<div class="row" style="height:596px;background-color:#EAF3EA" >
+						<div class="col-md-12" >
+							<div class="row" id="fcontent" style="margin-left:7px;margin-right:7px">
 							</div>
 						</div>
 					</div>
 					<!-- 搜索好友 -->
-					<div class="row">
+					<div class="row" style="background-color:#EAF3EA">
 						<div class="col-md-12">
-									<div class="form-group">
+									<div class="col-sm-8">
 										<input class="form-control" type="text" id="friendname"/>
 									</div>
-									<button type="button" class="btn btn-default" onclick="search()">Submit</button>
+									<div class="col-sm-4">
+									<button type="button" class="btn btn-default" onclick="search()">搜索好友</button>
+									</div>
 							</div>
+							<br><br><br><br>
 					</div>
 					<script>
 						function search(){
@@ -161,29 +165,33 @@
 					</script>
 				</div>
 				<!-- 右边聊天窗口信息 -->
-				<div class="col-md-6">
+				<div class="col-md-9">
 				<!-- 聊天信息层 -->
-				<div class="row" id="chatwindow">
+				<div class="row" id="chatwindow" style="background-color:#D6F5DC">
 					<!-- 好友姓名显示 -->
-					<div class="row">
+					<div class="row" >
 						<div class="col-md-12">
 							<h4 style="text-align:center" id="showfname"></h4>
+							<hr color="balck"/>
 						</div>
 					</div>
 					<!-- 聊天窗口 -->
-					<div class="row">
-						<div class="col-md-12" style="height:550px" id="chatcontent">
+					<div class="row" >
+						<div class="col-md-12" style="height:750px;margin-left:30px" id="chatcontent">
 						</div>
 					</div>
 					<!-- 发送聊天窗口 -->
 					<div class="row">
 						<div class="col-md-12">
 							<!-- 用websocke传消息,不是用form也不是ajax -->
-								<div class="form-group">
+								<div class="col-sm-9">
 									<input class="form-control" type="text" id="message"/>
 								</div>
-								<button type="button" class="btn btn-default" onclick="send()">Submit</button>
+								<div class="col-sm-3">
+								<button type="button" class="btn btn-default" onclick="send()">提交</button>
+								</div>
 						</div>
+						<br><br><br>
 					</div>
 					
 				</div>
@@ -196,7 +204,16 @@
 		</div>
 		<div class="col-md-2">
 		</div>
+			<div class="col-md-12">
+			<br><br>
+			<p class="text-center">
+				copyright ©UML Analyzer  2015 ICP 15003200 <a href="http://www.hainu.edu.cn/">Hainan University</a>
+				|  Designed by Huang Liang
+			</p>
+		</div>
 	</div>
+
 </div>
+
 </body>
 </html>
